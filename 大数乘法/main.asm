@@ -14,11 +14,12 @@ Temp DWORD 0
 i DWORD ?
 j DWORD ?
 len DWORD ?
-;Fact DWORD ?
+Fact DWORD 0
 szFmt byte 'Please enter the multiple number:', 0ah, 0
 szIn byte '%c',0
 szOut byte '%d',0
 szAns byte 'The answer is:',0ah,0
+szNeg byte '-',0
 .code
 main proc
 	xor ebx,ebx
@@ -32,11 +33,17 @@ L1:
 	mov ebx,Temp
 	cmp ebx,10
 	je L2
+	cmp ebx,45
+	je E1
 	DEC eax
 	mov i,eax
 	mov std1[eax*4],ebx
 	xor ebx,ebx
 	mov j,ebx
+	jmp L1
+E1:
+	mov ebx,1
+	xor Fact,ebx
 	jmp L1
 L2:
 	mov eax,i
@@ -46,9 +53,6 @@ L2:
 	mov ecx,std1[eax*4]
 	sub ecx,48
 	mov s1[ebx*4],ecx
-	;invoke printf,offset szOut,s1[ebx*4]
-	;mov eax,i
-	;mov ebx,j
 	inc eax
 	inc ebx
 	mov i,eax
@@ -65,11 +69,17 @@ L4:
 	mov ebx,Temp
 	cmp ebx,10
 	je L5
+	cmp ebx,45
+	je EQ2
 	DEC eax
 	mov i,eax
 	mov std2[eax*4],ebx
 	xor ebx,ebx
 	mov j,ebx
+	jmp L4
+EQ2:
+	mov ebx,1
+	xor Fact,ebx
 	jmp L4
 L5:
 	mov eax,i
@@ -154,7 +164,12 @@ L14:
 	mov j,ebx
 	jmp L14
 L15:
-	invoke printf,offset szAns 
+	invoke printf,offset szAns
+	mov eax,0
+	mov ebx,Fact
+	cmp ebx,0
+	je L16
+	invoke printf,offset szNeg
 	mov eax,0
 L16:
 	cmp eax,len
