@@ -115,7 +115,7 @@ _ProcWinMain proc uses ebx edi esi,hWnd,uMsg,wParam,lParam  ;窗口过程
 		invoke CreateWindowEx,NULL,offset static,offset display,WS_CHILD or WS_VISIBLE or ES_RIGHT,5,5,320,60,hWnd,20,hInstance,NULL ;DIS 20
 	.elseif eax==WM_COMMAND
 		mov eax,wParam
-		.if (eax >=0 && eax <=9) || eax == 17 ;|| eax == 12
+		.if (eax >=0 && eax <=9) || eax == 17 
 			.if eax >= 0 && eax <= 9
 				add eax,48
 			.elseif eax == 17
@@ -208,7 +208,6 @@ _ProcWinMain proc uses ebx edi esi,hWnd,uMsg,wParam,lParam  ;窗口过程
 					xor eax,eax
 					mov num,eax
 					finit
-					;fld num1
 					ret
 				.endif
 				mov operator,eax
@@ -303,6 +302,7 @@ _ProcWinMain proc uses ebx edi esi,hWnd,uMsg,wParam,lParam  ;窗口过程
 			mov operator,ebx
 			mov len,ebx
 			mov num,ebx
+			mov equal,ebx
 			mov ebx,1
 			mov divisionIsZero,ebx
 			mov buf1[0],48
